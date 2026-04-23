@@ -1,10 +1,174 @@
-<!DOCTYPE HTML>
-<HTML>
-  <HEAD>   
-  </HEAD>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borgz Dashboard</title>
 
-  <BODY>
-<H1>HELLO WORLD</H1>
-  
-</BODY>
-</HTML>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI, sans-serif;}
+body{display:flex;background:#f4f6f9;color:#1a1a2e;}
+
+/* SIDEBAR */
+.sidebar{
+  width:230px;
+  background:white;
+  height:100vh;
+  border-right:1px solid #ddd;
+  padding:20px;
+}
+.sidebar h2{font-size:18px;margin-bottom:30px;}
+.sidebar ul{list-style:none;}
+.sidebar li{
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.sidebar li:hover{background:#f0f0f0;}
+.sidebar li.active{background:#1a1a2e;color:white;}
+
+/* MAIN */
+.main{
+  flex:1;
+  padding:20px 30px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.card{
+  background:white;
+  padding:15px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  text-align:center;
+}
+.card h3{font-size:14px;opacity:0.6;}
+.card p{font-size:20px;margin-top:5px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.panel{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.button{
+  margin-top:15px;
+  padding:10px;
+  border:1px solid #1a1a2e;
+  background:none;
+  border-radius:6px;
+}
+
+.announcement{
+  border-bottom:1px solid #eee;
+  padding:10px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>BORGZ</h2>
+  <ul>
+    <li class="active">Dashboard</li>
+    <li>Book Table</li>
+    <li>My Reservations</li>
+    <li>Rewards</li>
+    <li>Announcements</li>
+    <li>Tables</li>
+    <li>Profile</li>
+    <li>Settings</li>
+    <li>Logout</li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <div class="header">
+    <div>
+      <h2>Welcome back, Kram Ateru!</h2>
+      <p>WASSAP BOSS KRAM -curt.</p>
+    </div>
+    <div>User Profile</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="cards">
+    <div class="card">
+      <h3>Current Reservations</h3>
+      <p>0</p>
+    </div>
+    <div class="card">
+      <h3>Hours Played</h3>
+      <p>0</p>
+    </div>
+    <div class="card">
+      <h3>Reward Points</h3>
+      <p>0</p>
+    </div>
+    <div class="card">
+      <h3>Upcoming Bookings</h3>
+      <p>0</p>
+    </div>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="grid">
+
+    <!-- RESERVATION -->
+    <div class="panel">
+      <h3>Upcoming Reservation</h3>
+      <p style="margin-top:20px;opacity:0.6;">No upcoming reservations.</p>
+      <button class="button">Book a Table</button>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="panel">
+      <h3>Announcements</h3>
+
+      <div class="announcement">
+        <strong>Weekend Tournament</strong>
+        <p style="font-size:12px;opacity:0.6;">Join our tournament this Saturday!</p>
+      </div>
+
+      <div class="announcement">
+        <strong>New Tables Available</strong>
+        <p style="font-size:12px;opacity:0.6;">New professional tables now open.</p>
+      </div>
+
+      <div class="announcement">
+        <strong>Holiday Schedule</strong>
+        <p style="font-size:12px;opacity:0.6;">Open during holidays.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
