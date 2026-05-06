@@ -1,174 +1,1163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Borgz Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borgz Billiards Hall | Table Management System</title>
+  <style>
+    :root {
+      --bg: #f3f5f8;
+      --panel: #ffffff;
+      --line: #d9dee7;
+      --text: #162033;
+      --muted: #6b7280;
+      --accent: #1f2a44;
+      --accent-2: #2f7d32;
+      --accent-soft: #eaf2ff;
+      --good: #1f7a4f;
+      --shadow: 0 10px 24px rgba(20, 30, 48, 0.06);
+      --radius: 16px;
+    }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI, sans-serif;}
-body{display:flex;background:#f4f6f9;color:#1a1a2e;}
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-/* SIDEBAR */
-.sidebar{
-  width:230px;
-  background:white;
-  height:100vh;
-  border-right:1px solid #ddd;
-  padding:20px;
-}
-.sidebar h2{font-size:18px;margin-bottom:30px;}
-.sidebar ul{list-style:none;}
-.sidebar li{
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-.sidebar li:hover{background:#f0f0f0;}
-.sidebar li.active{background:#1a1a2e;color:white;}
+    .app {
+      min-height: 100vh;
+    }
 
-/* MAIN */
-.main{
-  flex:1;
-  padding:20px 30px;
-}
+    .hidden { display: none !important; }
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
+    /* Top landing / login screen */
+    .landing {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      background: #f7f8fb;
+    }
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-.card{
-  background:white;
-  padding:15px;
-  border-radius:8px;
-  border:1px solid #ddd;
-  text-align:center;
-}
-.card h3{font-size:14px;opacity:0.6;}
-.card p{font-size:20px;margin-top:5px;}
+    .landing-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      background: linear-gradient(180deg, #fafbfe 0%, #f3f5f8 100%);
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:20px;
-}
+    .landing-card {
+      width: min(520px, 100%);
+      padding: 24px 12px;
+    }
 
-.panel{
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
 
-.button{
-  margin-top:15px;
-  padding:10px;
-  border:1px solid #1a1a2e;
-  background:none;
-  border-radius:6px;
-}
+    .brand-mark .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff 0%, #cde0ff 30%, #2f7d32 100%);
+      border: 1px solid #c9d2e1;
+    }
 
-.announcement{
-  border-bottom:1px solid #eee;
-  padding:10px 0;
-}
+    .landing-title {
+      font-size: clamp(46px, 8vw, 78px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      margin: 8px 0 10px;
+    }
 
-</style>
+    .landing-sub {
+      font-size: 22px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .landing-copy {
+      max-width: 420px;
+      color: #657084;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .enter-btn {
+      appearance: none;
+      border: 1px solid #111827;
+      background: #fff;
+      color: #111827;
+      padding: 13px 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .landing-right {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.55), transparent 28%),
+        linear-gradient(135deg, rgba(18,24,34,0.15), rgba(18,24,34,0.15)),
+        url('https://images.unsplash.com/photo-1521537669069-7a1f6f8d9f1e?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      filter: grayscale(1);
+    }
+
+    .landing-right::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.34));
+      backdrop-filter: blur(1px);
+    }
+
+    /* Main dashboard shell */
+    .shell {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 18px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar .title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 10px 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .sidebar .title strong { font-size: 18px; }
+    .sidebar .title span { color: var(--muted); font-size: 12px; }
+
+    .navlist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .navlist button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      padding: 13px 12px;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .navlist button:hover { background: #f5f7fb; }
+    .navlist button.active {
+      background: #101828;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar .footer-note {
+      margin-top: 18px;
+      padding: 14px 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .content {
+      padding: 18px 20px 28px;
+    }
+
+    .topbar {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .topbar .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .topbar .brand strong {
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .topbar .brand span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .profile-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view {
+      display: none;
+      animation: fadeIn 0.18s ease;
+    }
+
+    .view.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-heading {
+      margin: 6px 0 16px;
+    }
+
+    .page-heading h1 {
+      margin: 0 0 6px;
+      font-size: clamp(22px, 2.5vw, 32px);
+    }
+
+    .page-heading p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      min-height: 94px;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .stat .value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0 0 14px;
+    }
+
+    .panel h2 { font-size: 20px; }
+    .panel h3 { font-size: 17px; }
+
+    .reservation-empty {
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .cta {
+      border: 1px solid #0f172a;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 12px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .announcement-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid #edf0f5;
+    }
+
+    .announcement-item:first-of-type { border-top: none; padding-top: 0; }
+
+    .thumb {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(135deg, #eef2f8, #fafbff);
+    }
+
+    .announcement-item strong { display: block; margin-bottom: 4px; }
+    .announcement-item p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .more-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* Booking wizard */
+    .wizard {
+      display: grid;
+      gap: 16px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+      color: var(--muted);
+      box-shadow: var(--shadow);
+    }
+
+    .step strong {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e5e9f2;
+      color: #0f172a;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .step.active {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .step.active strong {
+      background: #fff;
+      color: #0f172a;
+    }
+
+    .wizard-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 360px;
+      background: #fff;
+    }
+
+    .field .label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 14px 0 8px;
+    }
+
+    .input, .select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 12px;
+      background: #fff;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+    }
+
+    .mini-box {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+      color: var(--muted);
+      background: #fbfcfe;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .calendar {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fcfdff;
+    }
+
+    .calendar .month {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .date {
+      aspect-ratio: 1 / 1;
+      border: 1px solid #edf0f5;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: #455066;
+      background: #fff;
+    }
+
+    .date.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .times {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .time-slot {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      background: #fff;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .booking-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    .primary {
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .secondary {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Tables / Menu-like management */
+    .table-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .table-card strong { font-size: 15px; }
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Rewards */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #edf0f5;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .checklist li:first-child { border-top: none; }
+
+    .box {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid #9aa6b2;
+      border-radius: 4px;
+      flex: none;
+    }
+
+    /* Profile */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #e8edf5, #dfe6f0);
+      margin-bottom: 14px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      margin-bottom: 10px;
+      color: #374151;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .hero-about {
+      min-height: 310px;
+      background:
+        linear-gradient(180deg, rgba(18,24,34,0.35), rgba(18,24,34,0.35)),
+        url('https://images.unsplash.com/photo-1540317580384-e5d43867caa8?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      border-radius: 18px;
+      padding: 24px;
+      color: #fff;
+      display: flex;
+      align-items: flex-end;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-about h2 { font-size: 32px; margin: 0 0 6px; }
+    .hero-about p { margin: 0; color: rgba(255,255,255,0.86); }
+
+    .footer-bar {
+      margin-top: 18px;
+      border-radius: 18px;
+      background: #111827;
+      color: #fff;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .footer-bar .muted { color: rgba(255,255,255,0.72); font-size: 13px; }
+
+    @media (max-width: 1200px) {
+      .cards, .wizard-grid, .grid-2, .rewards-grid, .profile-grid, .about-grid { grid-template-columns: 1fr; }
+      .table-grid { grid-template-columns: repeat(2, 1fr); }
+      .landing { grid-template-columns: 1fr; }
+      .landing-right { min-height: 320px; }
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+    }
+
+    @media (max-width: 720px) {
+      .content { padding: 14px; }
+      .topbar, .booking-footer, .footer-bar { flex-direction: column; align-items: stretch; }
+      .table-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <!-- Landing / Login -->
+    <section id="landingView" class="landing">
+      <div class="landing-left">
+        <div class="landing-card">
+          <div class="brand-mark"><span class="dot"></span> Borgz Billiards Hall</div>
+          <h1 class="landing-title">BORGZ</h1>
+          <div class="landing-sub">Billiards Hall</div>
+          <div class="landing-copy">
+            Table reservations • Time management • Rewards program. A simple web-based table management system for booking, monitoring schedules, and viewing announcements.
+          </div>
+          <button class="enter-btn" data-go="dashboardView">Enter →</button>
+        </div>
+      </div>
+      <div class="landing-right" aria-hidden="true"></div>
+    </section>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <h2>BORGZ</h2>
-  <ul>
-    <li class="active">Dashboard</li>
-    <li>Book Table</li>
-    <li>My Reservations</li>
-    <li>Rewards</li>
-    <li>Announcements</li>
-    <li>Tables</li>
-    <li>Profile</li>
-    <li>Settings</li>
-    <li>Logout</li>
-  </ul>
-</div>
+    <!-- Main App Shell -->
+    <section id="appShell" class="shell hidden">
+      <aside class="sidebar">
+        <div class="title">
+          <strong>BORGZ BILLIARDS HALL</strong>
+          <span>Table Management System</span>
+        </div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
+        <ul class="navlist">
+          <li><button class="active" data-view="dashboardView">Dashboard</button></li>
+          <li><button data-view="bookView">Book Table</button></li>
+          <li><button data-view="myReservationsView">My Reservations</button></li>
+          <li><button data-view="rewardsView">Rewards</button></li>
+          <li><button data-view="announcementsView">Announcements</button></li>
+          <li><button data-view="tablesView">Tables</button></li>
+          <li><button data-view="profileView">Profile</button></li>
+          <li><button data-view="settingsView">Settings</button></li>
+          <li><button data-view="aboutView">About Us</button></li>
+          <li><button data-view="landingView">Logout</button></li>
+        </ul>
 
-  <div class="header">
-    <div>
-      <h2>Welcome back, Kram Ateru!</h2>
-      <p>WASSAP BOSS KRAM -curt.</p>
-    </div>
-    <div>User Profile</div>
+        <div class="footer-note">
+          Demo project only. No database, login system, or backend connection yet.
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div class="brand">
+            <strong>BORGZ BILLIARDS HALL</strong>
+            <span>Table Management System</span>
+          </div>
+          <button class="profile-btn" data-view="profileView">👤 User Profile</button>
+        </div>
+
+        <!-- DASHBOARD -->
+        <section id="dashboardView" class="view active">
+          <div class="page-heading">
+            <h1>Welcome back, Guest!</h1>
+            <p>Here’s what’s happening today.</p>
+          </div>
+
+          <div class="cards">
+            <div class="stat"><div class="label">Current Reservations</div><div class="value">0</div></div>
+            <div class="stat"><div class="label">Hours Played</div><div class="value">0</div></div>
+            <div class="stat"><div class="label">Reward Points</div><div class="value">0</div></div>
+            <div class="stat"><div class="label">Upcoming Bookings</div><div class="value">0</div></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h2>Upcoming Reservation</h2>
+              <div class="reservation-empty">
+                <div style="font-size:44px;">📅</div>
+                <div>No upcoming reservations.</div>
+                <button class="cta" data-view="bookView">Book a Table</button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Announcements</h2>
+              <div class="announcement-item">
+                <div class="thumb"></div>
+                <div>
+                  <strong>Weekend Tournament</strong>
+                  <p>Join our 9-ball tournament this Saturday.</p>
+                </div>
+              </div>
+              <div class="announcement-item">
+                <div class="thumb"></div>
+                <div>
+                  <strong>New Tables Available</strong>
+                  <p>New professional tables are now open.</p>
+                </div>
+              </div>
+              <div class="announcement-item">
+                <div class="thumb"></div>
+                <div>
+                  <strong>Holiday Schedule</strong>
+                  <p>We are open on select holidays.</p>
+                </div>
+              </div>
+              <a href="#" class="more-link" onclick="return false;">View all announcements →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOK TABLE (STEP 1 OF 3) -->
+        <section id="bookView" class="view">
+          <div class="page-heading">
+            <h1>Book Table</h1>
+            <p>Step 1 of 3: Select details, choose table, and confirm booking.</p>
+          </div>
+
+          <div class="wizard">
+            <div class="steps">
+              <div class="step active"><strong>1</strong><div>Select Details</div></div>
+              <div class="step"><strong>2</strong><div>Choose Table</div></div>
+              <div class="step"><strong>3</strong><div>Confirm Booking</div></div>
+            </div>
+
+            <div class="wizard-grid">
+              <div class="field">
+                <h3>Customer Information</h3>
+                <label class="label">Name</label>
+                <input class="input" placeholder="Enter name" />
+                <label class="label">Member ID (Optional)</label>
+                <input class="input" placeholder="Enter member ID" />
+                <div class="mini-box">
+                  Login / Register can be added later to auto-fill customer information and save booking history.
+                </div>
+              </div>
+
+              <div class="field">
+                <h3>Select Date</h3>
+                <div class="calendar">
+                  <div class="month"><span>May 2024</span><span>→</span></div>
+                  <div class="days"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
+                  <div class="date-grid">
+                    <div class="date">1</div><div class="date">2</div><div class="date">3</div><div class="date">4</div><div class="date">5</div><div class="date">6</div><div class="date">7</div>
+                    <div class="date">8</div><div class="date">9</div><div class="date">10</div><div class="date">11</div><div class="date active">12</div><div class="date">13</div><div class="date">14</div>
+                    <div class="date">15</div><div class="date">16</div><div class="date">17</div><div class="date">18</div><div class="date">19</div><div class="date">20</div><div class="date">21</div>
+                    <div class="date">22</div><div class="date">23</div><div class="date">24</div><div class="date">25</div><div class="date">26</div><div class="date">27</div><div class="date">28</div>
+                  </div>
+                </div>
+                <label class="label">Table Type</label>
+                <select class="select">
+                  <option>Standard (9ft)</option>
+                  <option>Professional (10ft)</option>
+                  <option>Snooker (12ft)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <h3>Available Times</h3>
+                <div class="times">
+                  <div class="time-slot">10:00 AM</div><div class="time-slot">11:00 AM</div>
+                  <div class="time-slot">12:00 PM</div><div class="time-slot">1:00 PM</div>
+                  <div class="time-slot">2:00 PM</div><div class="time-slot">3:00 PM</div>
+                  <div class="time-slot">4:00 PM</div><div class="time-slot">5:00 PM</div>
+                  <div class="time-slot">6:00 PM</div><div class="time-slot">7:00 PM</div>
+                  <div class="time-slot">8:00 PM</div>
+                </div>
+                <div class="mini-box">
+                  Time slots will later be linked to real availability so customers can only choose open schedules.
+                </div>
+              </div>
+            </div>
+
+            <div class="booking-footer">
+              <button class="primary" data-view="confirmView">Next: Choose Table →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOK TABLE (STEP 2 OF 3) -->
+        <section id="confirmView" class="view">
+          <div class="page-heading">
+            <h1>Choose Table</h1>
+            <p>Step 2 of 3: Select an available table and review the booking summary.</p>
+          </div>
+
+          <div class="wizard">
+            <div class="steps">
+              <div class="step"><strong>1</strong><div>Select Details</div></div>
+              <div class="step active"><strong>2</strong><div>Choose Table</div></div>
+              <div class="step"><strong>3</strong><div>Confirm Booking</div></div>
+            </div>
+
+            <div class="grid-2">
+              <div class="panel">
+                <h2>Select Table</h2>
+                <div class="table-grid">
+                  <div class="table-card"><strong>Table 1</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 2</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 3</strong><span class="status">Reserved</span></div>
+                  <div class="table-card"><strong>Table 4</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 5</strong><span class="status">Selected</span></div>
+                  <div class="table-card"><strong>Table 6</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 7</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 8</strong><span class="status">Available</span></div>
+                  <div class="table-card"><strong>Table 9</strong><span class="status">VIP Area</span></div>
+                  <div class="table-card"><strong>Table 10</strong><span class="status">VIP Area</span></div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h2>Booking Summary</h2>
+                <div class="small">
+                  Date: May 15, 2024<br />
+                  Time: 2:00 PM<br />
+                  Table Type: Standard (9ft)<br />
+                  Table: Table 5<br />
+                  Duration: 1 Hour<br /><br />
+                  Total: ₱150.00
+                </div>
+                <div class="booking-footer" style="justify-content:flex-start; gap:10px; margin-top:16px;">
+                  <button class="primary" data-view="doneView">Next: Confirm Booking →</button>
+                  <button class="secondary" data-view="bookView">← Back</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOK TABLE (STEP 3 OF 3) -->
+        <section id="doneView" class="view">
+          <div class="page-heading">
+            <h1>Booking Confirmed</h1>
+            <p>Step 3 of 3: Reservation completed successfully.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel" style="display:flex;align-items:center;justify-content:center;min-height:420px;text-align:center;">
+              <div>
+                <div style="font-size:64px; margin-bottom:12px;">✓</div>
+                <h2>Booking Confirmed!</h2>
+                <div class="small">Your table has been successfully reserved.</div>
+                <div class="small" style="margin-top:18px;">
+                  Booking ID: #BORGZ-2024-00123<br />
+                  Date: May 15, 2024<br />
+                  Time: 2:00 PM - 3:00 PM<br />
+                  Table: Table 5 (Standard 9ft)<br />
+                  Amount: ₱150.00
+                </div>
+                <div class="booking-footer" style="justify-content:center; gap:10px; margin-top:18px;">
+                  <button class="primary" data-view="myReservationsView">View My Reservations</button>
+                  <button class="secondary" data-view="dashboardView">Back to Home</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>What's Next?</h2>
+              <div class="announcement-item" style="padding-top:0;">
+                <div class="thumb"></div>
+                <div>
+                  <strong>Arrive 15 minutes early</strong>
+                  <p>To avoid delays before your booking.</p>
+                </div>
+              </div>
+              <div class="announcement-item">
+                <div class="thumb"></div>
+                <div>
+                  <strong>Bring valid ID</strong>
+                  <p>For verification if needed.</p>
+                </div>
+              </div>
+              <div class="announcement-item">
+                <div class="thumb"></div>
+                <div>
+                  <strong>Manage reservations</strong>
+                  <p>Future bookings can be viewed on My Reservations.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MY RESERVATIONS -->
+        <section id="myReservationsView" class="view">
+          <div class="page-heading">
+            <h1>My Reservations</h1>
+            <p>View booked schedules and reservation status.</p>
+          </div>
+          <div class="panel">
+            <div class="reservation-empty" style="min-height:280px;">
+              <div style="font-size:44px;">📌</div>
+              <div>No current reservations in this demo.</div>
+              <button class="cta" data-view="bookView">Book Another Table</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- REWARDS -->
+        <section id="rewardsView" class="view">
+          <div class="page-heading">
+            <h1>Rewards</h1>
+            <p>Track points, play hours, and member benefits.</p>
+          </div>
+          <div class="rewards-grid">
+            <div class="panel">
+              <h2>Rewards Program</h2>
+              <div class="small">Current Points: 0</div>
+              <div class="small">Hours Played: 0</div>
+              <div class="small">Member Status: Guest</div>
+              <div class="mini-box" style="margin-top:16px;">Play more to earn points and unlock rewards.</div>
+            </div>
+            <div class="panel">
+              <h2>Member Benefits</h2>
+              <ul class="checklist">
+                <li><span class="box"></span> 10% discount after 10 hours</li>
+                <li><span class="box"></span> Priority table booking</li>
+                <li><span class="box"></span> Free equipment rental</li>
+                <li><span class="box"></span> Tournament entry discounts</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ANNOUNCEMENTS -->
+        <section id="announcementsView" class="view">
+          <div class="page-heading">
+            <h1>Announcements</h1>
+            <p>Business updates and notices for customers.</p>
+          </div>
+          <div class="panel">
+            <div class="announcement-item" style="padding-top:0;">
+              <div class="thumb"></div>
+              <div><strong>Weekend Tournament</strong><p>Join our 9-ball tournament this Saturday.</p></div>
+            </div>
+            <div class="announcement-item">
+              <div class="thumb"></div>
+              <div><strong>New Tables Available</strong><p>New professional tables are now open.</p></div>
+            </div>
+            <div class="announcement-item">
+              <div class="thumb"></div>
+              <div><strong>Holiday Schedule</strong><p>We are open on selected holidays.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TABLES -->
+        <section id="tablesView" class="view">
+          <div class="page-heading">
+            <h1>Tables</h1>
+            <p>Table list and availability overview.</p>
+          </div>
+          <div class="panel">
+            <div class="table-grid">
+              <div class="table-card"><strong>Table 1</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 2</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 3</strong><span class="status">Reserved</span></div>
+              <div class="table-card"><strong>Table 4</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 5</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 6</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 7</strong><span class="status">Available</span></div>
+              <div class="table-card"><strong>Table 8</strong><span class="status">Available</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="profileView" class="view">
+          <div class="page-heading">
+            <h1>User Profile</h1>
+            <p>Profile and account settings overview.</p>
+          </div>
+          <div class="profile-grid">
+            <div class="panel">
+              <h2>Profile Information</h2>
+              <div class="avatar"></div>
+              <div class="row"><input class="input" value="Guest User" /><input class="input" value="BORGZ-0001" /></div>
+              <div class="row"><input class="input" value="guest@email.com" /><input class="input" value="0912 345 6789" /></div>
+              <div class="small">This layout can later be connected to a real account system.</div>
+            </div>
+            <div class="panel">
+              <h2>Account Settings</h2>
+              <div class="setting">Change Password <span>›</span></div>
+              <div class="setting">Notification Preferences <span>›</span></div>
+              <div class="setting">Privacy Settings <span>›</span></div>
+              <div class="setting">Logout <span>›</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="settingsView" class="view">
+          <div class="page-heading">
+            <h1>Settings</h1>
+            <p>System preferences and future configuration.</p>
+          </div>
+          <div class="panel">
+            <div class="row"><input class="input" value="Dark mode: Off" /><input class="input" value="Language: English" /></div>
+            <div class="row"><input class="input" value="Notifications: On" /><input class="input" value="Time format: 12-hour" /></div>
+            <div class="small">These are layout placeholders for future configuration features.</div>
+          </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="aboutView" class="view">
+          <div class="page-heading">
+            <h1>About Us</h1>
+            <p>Borgz Billiards Hall and its web-based reservation concept.</p>
+          </div>
+          <div class="about-grid">
+            <div class="hero-about">
+              <div>
+                <h2>Borgz Billiards Hall</h2>
+                <p>Table reservations • Time management • Rewards program</p>
+              </div>
+            </div>
+            <div class="panel">
+              <h2>Business Profile</h2>
+              <p class="small">
+                Borgz Billiards Hall is a local recreational business that offers billiard table rentals for leisure and entertainment. The proposed system helps modernize reservations and improve customer service.
+              </p>
+              <div class="mini-box">
+                The project focuses on a clean booking flow, organized schedules, and a simple dashboard for both users and staff.
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bar">
+            <div>
+              <strong>Contact Us</strong>
+              <div class="muted">Phone: (123) 456-7890</div>
+            </div>
+            <div class="muted">Email: info@borgzbilliards.com</div>
+          </div>
+        </section>
+      </main>
+    </section>
   </div>
 
-  <!-- STATS -->
-  <div class="cards">
-    <div class="card">
-      <h3>Current Reservations</h3>
-      <p>0</p>
-    </div>
-    <div class="card">
-      <h3>Hours Played</h3>
-      <p>0</p>
-    </div>
-    <div class="card">
-      <h3>Reward Points</h3>
-      <p>0</p>
-    </div>
-    <div class="card">
-      <h3>Upcoming Bookings</h3>
-      <p>0</p>
-    </div>
-  </div>
+  <script>
+    const landing = document.getElementById('landingView');
+    const shell = document.getElementById('appShell');
+    const navButtons = document.querySelectorAll('[data-view], [data-go]');
+    const views = document.querySelectorAll('.view');
+    const sidebarButtons = document.querySelectorAll('.navlist button');
 
-  <!-- CONTENT GRID -->
-  <div class="grid">
+    function showView(id) {
+      if (id === 'landingView') {
+        landing.classList.remove('hidden');
+        shell.classList.add('hidden');
+      } else {
+        landing.classList.add('hidden');
+        shell.classList.remove('hidden');
+        views.forEach(v => v.classList.toggle('active', v.id === id));
+        sidebarButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === id));
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    <!-- RESERVATION -->
-    <div class="panel">
-      <h3>Upcoming Reservation</h3>
-      <p style="margin-top:20px;opacity:0.6;">No upcoming reservations.</p>
-      <button class="button">Book a Table</button>
-    </div>
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.view || btn.dataset.go;
+        if (target) showView(target);
+      });
+    });
 
-    <!-- ANNOUNCEMENTS -->
-    <div class="panel">
-      <h3>Announcements</h3>
-
-      <div class="announcement">
-        <strong>Weekend Tournament</strong>
-        <p style="font-size:12px;opacity:0.6;">Join our tournament this Saturday!</p>
-      </div>
-
-      <div class="announcement">
-        <strong>New Tables Available</strong>
-        <p style="font-size:12px;opacity:0.6;">New professional tables now open.</p>
-      </div>
-
-      <div class="announcement">
-        <strong>Holiday Schedule</strong>
-        <p style="font-size:12px;opacity:0.6;">Open during holidays.</p>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
+    showView('landingView');
+  </script>
 </body>
 </html>
