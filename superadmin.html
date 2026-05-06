@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borgz' Billiard Hall | Super Admin View</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="superadmin">
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <div class="brand-mark"><img src="logo.png" alt="Borgz' Billiard Hall logo"></div>
+        <div>
+          <strong>BORGZ' BILLIARD HALL</strong>
+          <span>Super Admin View</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="about.html">About Us</a>
+        <button data-action="logout">Logout</button>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="page-title">
+      <h1>Super Admin Control Center</h1>
+      <p>Manage users, change roles, adjust system settings, and reset the demo data.</p>
+      <div class="status-line">
+        <span class="badge good">Logged in as <span id="superName">Super Admin</span></span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="stat-grid" id="superStats"></div>
+    </section>
+
+    <section class="section grid-2">
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>User & Role Management</h2>
+            <p>Change account roles inside the demo.</p>
+          </div>
+        </div>
+        <div id="userAdminList" class="list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>System Settings</h2>
+            <p>Update pricing and reward thresholds.</p>
+          </div>
+        </div>
+        <div id="systemSettings" class="card-grid"></div>
+        <form id="settingsForm" style="margin-top:14px">
+          <div class="form-row">
+            <div><label>Standard Rate</label><input id="rateStandard" type="number" min="0" /></div>
+            <div><label>Professional Rate</label><input id="rateProfessional" type="number" min="0" /></div>
+          </div>
+          <div class="form-row">
+            <div><label>VIP Rate</label><input id="rateVIP" type="number" min="0" /></div>
+            <div><label>Reward Threshold Hours</label><input id="rewardHours" type="number" min="1" /></div>
+          </div>
+          <label>Reward Threshold Visits</label>
+          <input id="rewardVisits" type="number" min="1" />
+          <div class="actions" style="margin-top:14px">
+            <button class="primary-btn" type="submit">Save Settings</button>
+            <button class="secondary-btn" id="resetDemo" type="button">Reset Demo Data</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

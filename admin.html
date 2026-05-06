@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borgz' Billiard Hall | Admin View</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="admin">
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <div class="brand-mark"><img src="logo.png" alt="Borgz' Billiard Hall logo"></div>
+        <div>
+          <strong>BORGZ' BILLIARD HALL</strong>
+          <span>Admin View</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="about.html">About Us</a>
+        <button data-action="logout">Logout</button>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="page-title">
+      <h1>Admin Dashboard</h1>
+      <p>Monitor reservations, update table status, and post announcements.</p>
+      <div class="status-line">
+        <span class="badge good">Logged in as <span id="adminName">Admin</span></span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="stat-grid" id="adminStats"></div>
+    </section>
+
+    <section class="section grid-2">
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Reservation Management</h2>
+            <p>Change booking status directly from this list.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Customer</th><th>Date</th><th>Time</th><th>Table</th><th>Total</th><th>Status</th><th>Update</th>
+              </tr>
+            </thead>
+            <tbody id="reservationTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Table Monitor</h2>
+            <p>Live status for each table.</p>
+          </div>
+        </div>
+        <div id="adminTables" class="table-grid"></div>
+      </div>
+    </section>
+
+    <section class="section grid-2">
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Announcement Board</h2>
+            <p>Publish new notices for customers.</p>
+          </div>
+        </div>
+
+        <form id="announcementForm">
+          <label>Title</label>
+          <input id="annTitle" placeholder="Announcement title" required />
+          <label>Body</label>
+          <textarea id="annBody" placeholder="Write the announcement..." required></textarea>
+          <label>Audience</label>
+          <select id="annAudience">
+            <option>All</option>
+            <option>Members</option>
+            <option>Staff</option>
+          </select>
+          <div class="actions" style="margin-top:14px">
+            <button class="primary-btn" type="submit">Post Announcement</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Current Announcements</h2>
+            <p>What customers will see right now.</p>
+          </div>
+        </div>
+        <div id="adminAnnouncements" class="list"></div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
