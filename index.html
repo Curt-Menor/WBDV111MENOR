@@ -6,10 +6,9 @@
   <title>Borgz' Billiard Hall | Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<nav class="nav">
-      <a href="about.html">About Us</a>
-      </nav>
+
 <body data-page="index">
+
   <header class="topbar">
     <div class="wrap topbar-inner">
       <div class="brand">
@@ -19,6 +18,9 @@
           <span>Login</span>
         </div>
       </div>
+	  <nav class="nav">
+      <a href="about.html">About Us</a>
+      </nav>
     </div>
   </header>
   <main class="wrap">
@@ -41,7 +43,9 @@
               <input id="password" type="password" placeholder="demo password" required />
               <div class="actions" style="margin-top:14px">
                 <button class="primary-btn" type="submit">Sign in</button>
-                <button class="ghost-btn" type="button" data-action="logout">Sign up</button>
+                <a href="signup.html" class="ghost-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+  Sign up
+</a>
               </div>
               <div class="mini-note" id="loginMsg" style="margin-top:10px"></div>
             </form>
