@@ -16,18 +16,14 @@ const demoUsers = [
 ];
 
 const demoTables = [
-  { id: "T1", name: "Table 1", type: "Standard", capacity: 4, status: "Available" },
-  { id: "T2", name: "Table 2", type: "Standard", capacity: 4, status: "Available" },
-  { id: "T3", name: "Table 3", type: "Standard", capacity: 4, status: "Reserved" },
-  { id: "T4", name: "Table 4", type: "Professional", capacity: 4, status: "Available" },
-  { id: "T5", name: "Table 5", type: "Professional", capacity: 4, status: "Reserved" },
-  { id: "T6", name: "Table 6", type: "Professional", capacity: 4, status: "Available" },
-  { id: "T7", name: "Table 7", type: "VIP", capacity: 4, status: "Available" },
-  { id: "T8", name: "Table 8", type: "VIP", capacity: 4, status: "Available" }
+  { id: "T1", name: "MAXIMA 6", type: "Standard", capacity: 4, status: "Available" },
+  { id: "T2", name: "MAXIMA 7", type: "Standard", capacity: 4, status: "Available" },
+  { id: "T3", name: "MAXIMA 8", type: "Standard", capacity: 4, status: "Reserved" },
+  { id: "T4", name: "RASSON", type: "Professional", capacity: 4, status: "Available" },
+
 ];
 
 const demoReservations = [
-  { id: "B-1001", userId: "u-regular", userName: "Maria Santos", date: todayISO(), time: "18:00", duration: 2, tableId: "T5", tableName: "Table 5", type: "Professional", status: "Confirmed", total: 400, pointsEarned: 4 },
   { id: "B-1002", userId: "u-guest", userName: "Guest User", date: todayISO(), time: "20:00", duration: 1, tableId: "T2", tableName: "Table 2", type: "Standard", status: "Pending", total: 180, pointsEarned: 1 }
 ];
 
@@ -65,12 +61,21 @@ function setJSON(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+function removeExtraTables() {
+  const allowedTableIds = new Set(["T1", "T2", "T3", "T4"]);
+  const cleanTables = tables().filter(t => allowedTableIds.has(t.id));
+  const cleanReservations = reservations().filter(r => allowedTableIds.has(r.tableId));
+  setJSON(LS_KEYS.tables, cleanTables);
+  setJSON(LS_KEYS.reservations, cleanReservations);
+}
+
 function seed() {
   if (!localStorage.getItem(LS_KEYS.users)) setJSON(LS_KEYS.users, demoUsers);
   if (!localStorage.getItem(LS_KEYS.tables)) setJSON(LS_KEYS.tables, demoTables);
   if (!localStorage.getItem(LS_KEYS.reservations)) setJSON(LS_KEYS.reservations, demoReservations);
   if (!localStorage.getItem(LS_KEYS.announcements)) setJSON(LS_KEYS.announcements, demoAnnouncements);
   if (!localStorage.getItem(LS_KEYS.settings)) setJSON(LS_KEYS.settings, demoSettings);
+  removeExtraTables();
 }
 
 function users() { return getJSON(LS_KEYS.users, demoUsers); }
