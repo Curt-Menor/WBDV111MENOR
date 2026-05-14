@@ -6,9 +6,7 @@
   <title>Borgz' Billiard Hall | Login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body data-page="index">
-
   <header class="topbar">
     <div class="wrap topbar-inner">
       <div class="brand">
@@ -18,22 +16,24 @@
           <span>Login</span>
         </div>
       </div>
-	  <nav class="nav">
-      <a href="about.html">About Us</a>
-      </nav>
+      <div class="nav"></div>
     </div>
   </header>
+
   <main class="wrap">
     <section class="hero">
       <div class="hero-grid">
         <div class="panel hero-card">
           <div class="kicker">Billiard time management system</div>
-          <h1>Book tables, track play hours, and reward regular customers.</h1>
+          <h1>Book tables, track reservations, and reward regular customers.</h1>
           <p>
-            This front-end demo includes reservations, live table monitoring, announcements, role-based dashboards, and a simple rewards system using localStorage.
+            A gray modern front-end demo for reservations, table monitoring, announcements, rewards, and role-based dashboards.
           </p>
           <div class="hero-actions">
+            <span id="indexQuickLink"></span>
           </div>
+          <div class="status-line" id="demoStatus"></div>
+          <div class="hr"></div>
           <div class="form-card">
             <h3>Sign in</h3>
             <form id="loginForm">
@@ -42,21 +42,21 @@
               <label>Password</label>
               <input id="password" type="password" placeholder="demo password" required />
               <div class="actions" style="margin-top:14px">
-                <button class="primary-btn" type="submit">Sign in</button>
-                <a href="signup.html" class="ghost-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-  Sign up
-</a>
+                <button class="primary-btn" type="submit">Login</button>
+                <a class="ghost-btn" href="signup.html" style="display:inline-flex;align-items:center;justify-content:center;">Sign Up</a>
               </div>
+              <div class="flash"></div>
               <div class="mini-note" id="loginMsg" style="margin-top:10px"></div>
             </form>
           </div>
         </div>
+
         <div class="panel hero-side">
           <div class="frame">
             <h3>Demo accounts</h3>
             <p>Use the test users below to open the General, User, Admin, and Super Admin pages.</p>
             <div class="notice">
-              <strong>Tip:</strong> after you create reservations or change settings, everything stays saved in this browser until reset.
+              <strong>Tip:</strong> All reservations and updates stay saved in this browser until you reset the demo.
             </div>
             <div class="account-grid" style="margin-top:14px">
               <div class="account">
@@ -64,6 +64,12 @@
                 <div class="role">User</div>
                 <div class="mini-note">guest@borgz.local<br>guest123</div>
                 <button class="secondary-btn" data-login data-email="guest@borgz.local" data-password="guest123" style="margin-top:12px;width:100%">Login</button>
+              </div>
+              <div class="account">
+                <strong>Regular Member</strong>
+                <div class="role">User</div>
+                <div class="mini-note">maria@borgz.local<br>user123</div>
+                <button class="secondary-btn" data-login data-email="maria@borgz.local" data-password="user123" style="margin-top:12px;width:100%">Login</button>
               </div>
               <div class="account">
                 <strong>Staff Admin</strong>
@@ -83,6 +89,7 @@
       </div>
     </section>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
