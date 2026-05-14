@@ -16,70 +16,39 @@
           <span>About Us</span>
         </div>
       </div>
-      <nav class="nav">
-        <button data-action="logout">Return</button>
-      </nav>
     </div>
   </header>
+
   <main class="wrap">
     <section class="page-title">
       <h1>About Borgz' Billiard Hall</h1>
-      <p>Modern billiard hall management built for reservations, customer rewards, and smooth operations.</p>
+      <p>Modern billiard hall management built for reservations, customer rewards, and smooth day-to-day operations.</p>
     </section>
 
     <section class="section about-grid">
       <div class="about-hero">
-        <div class="overlay">
+        <div class="about-stage">
+          <div class="about-slide" style="background-image:url('Pic1.jpg')"></div>
+          <div class="about-slide" style="background-image:url('Pic2.jpg')"></div>
+          <div class="about-slide" style="background-image:url('Pic3.jpg')"></div>
+          <div class="about-slide" style="background-image:url('Pic4.jpg')"></div>
+        </div>
+        <div class="slideshow-controls">
+          <button type="button" data-slide-prev>‹</button>
+          <button type="button" data-slide-next>›</button>
+        </div>
+        <div class="about-caption">
           <h2>Borgz' Billiard Hall</h2>
-          <p>Gray modern interiors, organized table management, and a system built for customers, staff, and owners.</p>
+          <p>Open for walk-in or PM us for Reservation.</p>
         </div>
       </div>
 
       <div class="panel">
-        <h2>More information</h2>
-        <div class="list">
-  
-  <div class="list-item">
-    <div>
-      <strong>About Borgz' Billiard Hall</strong>
-      <div class="meta">
-        Borgz' Billiard Hall is a modern recreational venue that provides quality billiard tables, a relaxing ambience, and excellent customer service for players of all skill levels.
-      </div>
-    </div>
-  </div>
-
-  <div class="list-item">
-    <div>
-      <strong>OPEN HOURS</strong>
-      <div class="meta">
-        9AM TO 11PM, ONLINE RESERVATION 9AM TO 9PM.
-      </div>
-    </div>
-  </div>
-  <div class="list-item">
-    <div>
-      <strong>What We Offer</strong>
-      <div class="meta">
-        We offer table reservations, hourly table rentals, tournamentsb and a rewards program for our regular customers.
-      </div>
-    </div>
-  </div>
-
-  <div class="list-item">
-    <div>
-      <strong>Contact us</strong>
-      <div class="meta">
-       @Borgz Billiard Hall, 09171230705.
-      </div>
-    </div>
-  </div>
-  
-  
-
-</div>
-
+        <h2>Business Information</h2>
+        <div id="businessInfo" class="list"></div>
         <div class="hr"></div>
         <div class="actions">
+          <a class="primary-btn" href="index.html">Back to Login</a>
         </div>
       </div>
     </section>
@@ -91,21 +60,46 @@
     <section class="section grid-3">
       <div class="feature">
         <div class="icon">🕒</div>
-        <h3>Time Control</h3>
-        <p>Stop double bookings, keep schedules clear, and manage table availability in one place.</p>
+        <h3>Time Management</h3>
+        <p>Tables are organized with schedules so customers and staff can avoid double bookings.</p>
       </div>
       <div class="feature">
         <div class="icon">🏆</div>
-        <h3>Regular Customer Rewards</h3>
-        <p>Track hours, visits, and points so returning customers can unlock benefits.</p>
+        <h3>Customer Rewards</h3>
+        <p>Regular players can earn benefits through consistent bookings and longer play sessions.</p>
       </div>
       <div class="feature">
-        <div class="icon">⚙️</div>
-        <h3>Role-Based Access</h3>
-        <p>Separate pages for guests, customers, staff, and super admins keep the workflow organized.</p>
+        <div class="icon">🎱</div>
+        <h3>Hall Operations</h3>
+        <p>The demo shows table monitoring, reservations, announcements, and business tracking in one place.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <h2>System at a Glance</h2>
+        <div class="business-grid">
+          <div class="info-box">
+            <h2>Tables</h2>
+            <p class="small">4 active billiard tables with different categories and prices.</p>
+          </div>
+          <div class="info-box">
+            <h2>Reservation</h2>
+            <p class="small">Customers can reserve tables through a guided booking form with terms and conditions.</p>
+          </div>
+          <div class="info-box">
+            <h2>Members</h2>
+            <p class="small">Registered users can sign up, log in, and manage their bookings.</p>
+          </div>
+          <div class="info-box">
+            <h2>Announcement</h2>
+            <p class="small">Customers see updates about tournaments, promos, and hall notices.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
